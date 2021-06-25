@@ -46,8 +46,7 @@ def main():
 	sep = options.separator
 
 	log.info("Tweets will be written to %s ..." % options.out_path )
-	header = ["Tweet_ID", "Date", "Author_Screen_Name", "Author_Id", "Text" ]
-	#header = ["id", "date", "displayname", "content" ]
+	header = ["Tweet_ID", "Created_At", "Author_Screen_Name", "Author_Id", "Text" ]
 
 	fout = codecs.open( options.out_path, "w", encoding="utf-8", errors="ignore" )
 	fout.write("%s\n" % sep.join(header) )
@@ -63,8 +62,8 @@ def main():
 			try:
 				line_number += 1
 				tweet = json.loads(l)
-				#sdate = parse_twitter_date(tweet["date"]).strftime("%Y-%m-%d %H:%M:%S")
-				values = [ fmt_id(tweet["id"]), fmt_id(tweet["date"]), norm(tweet["user"]["displayname"], sep).lower(), fmt_id(tweet["user"]["id"]), norm(tweet["content"], sep) ]
+				sdate = parse_twitter_date(tweet["created_at"]).strftime("%Y-%m-%d %H:%M:%S")
+				values = [ fmt_id(tweet["id"]), sdate, norm(tweet["user"]["screen_name"], sep).lower(), fmt_id(tweet["user"]["id"]), norm(tweet["text"], sep) ]
 				fout.write("%s\n" % sep.join(values) )
 				num_tweets += 1
 				if line_number % 50000 == 0:
