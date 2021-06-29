@@ -46,7 +46,8 @@ def main():
 	sep = options.separator
 
 	log.info("Tweets will be written to %s ..." % options.out_path )
-	header = ["Tweet_ID", "Date", "Author_Screen_Name", "Author_Id", "Text" ]
+	header = ["Tweet_ID", "Date", "Author_Screen_Name", "Author_Id", "replyCount","retweetCount","likeCount","quoteCount", "Tweet" ]
+	#header = ["Tweet_ID", "Date", "Author_Screen_Name", "Author_Id", "Text" ]
 	#header = ["id", "date", "displayname", "content" ]
 
 	fout = codecs.open( options.out_path, "w", encoding="utf-8", errors="ignore" )
@@ -64,7 +65,8 @@ def main():
 				line_number += 1
 				tweet = json.loads(l)
 				#sdate = parse_twitter_date(tweet["date"]).strftime("%Y-%m-%d %H:%M:%S")
-				values = [ fmt_id(tweet["id"]), fmt_id(tweet["date"]), norm(tweet["user"]["displayname"], sep).lower(), fmt_id(tweet["user"]["id"]), norm(tweet["content"], sep) ]
+				#values = [ fmt_id(tweet["id"]), fmt_id(tweet["date"]), norm(tweet["user"]["displayname"], sep).lower(), fmt_id(tweet["user"]["id"]), norm(tweet["content"], sep) ]
+				values = [ fmt_id(tweet["id"]), fmt_id(tweet["date"]), norm(tweet["user"]["displayname"], sep).lower(), fmt_id(tweet["user"]["id"]),fmt_id(tweet["replyCount"]),fmt_id(tweet["retweetCount"]),fmt_id(tweet["likeCount"]),fmt_id(tweet["quoteCount"]), norm(tweet["content"], sep) ]
 				fout.write("%s\n" % sep.join(values) )
 				num_tweets += 1
 				if line_number % 50000 == 0:
